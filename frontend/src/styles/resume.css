@@ -1,0 +1,586 @@
+/* =====================================================================
+   MarkResume · Resume paper, typography, themes and print styles
+   ===================================================================== */
+
+/* -------------------- A4 Paper Canvas -------------------- */
+.a4-page {
+  width: 210mm;
+  height: 297mm;
+  min-height: 297mm;
+  max-height: 297mm;
+  background: #ffffff;
+  color: #1f2937;
+  box-shadow: var(--shadow-paper);
+  padding: var(--margin-top, 26px) var(--page-margin, 28px) var(--margin-bottom, 24px);
+  font-size: var(--font-size, 14px);
+  line-height: var(--line-height, 1.6);
+  font-family: var(
+    --resume-font-family,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif
+  );
+  position: relative;
+  transition: box-shadow 0.2s ease, outline-color 0.2s ease;
+  outline: 1.5px solid transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.a4-page.active-page {
+  outline-color: rgba(37, 99, 235, 0.55);
+}
+
+.a4-page-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.a4-page-content .resume-body > *:last-child,
+.a4-page-content .resume-body > ul:last-child > li:last-child,
+.a4-page-content .resume-body > ol:last-child > li:last-child {
+  margin-bottom: 0 !important;
+}
+
+.a4-page-footer {
+  position: absolute;
+  bottom: 6px;
+  right: 16px;
+  font-size: 11px;
+  color: #9ca3af;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Hidden offscreen container for accurate DOM pagination measurement */
+.a4-measure-container {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 210mm;
+  padding: var(--margin-top, 26px) var(--page-margin, 28px) var(--margin-bottom, 24px);
+  font-size: var(--font-size, 14px);
+  line-height: var(--line-height, 1.6);
+  font-family: var(
+    --resume-font-family,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif
+  );
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* -------------------- Resume Content Typography -------------------- */
+.resume-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--primary-color, #2563eb);
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.resume-header-main {
+  flex: 1;
+}
+
+.resume-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.resume-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: 0.5px;
+}
+
+.resume-role {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary-color, #2563eb);
+}
+
+.resume-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  font-size: 12.5px;
+  color: #4b5563;
+}
+
+.resume-contacts-grid {
+  display: grid;
+  gap: 5px 16px;
+  font-size: 12.5px;
+  color: #374151;
+  margin-top: 4px;
+}
+
+.resume-contacts-grid.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.resume-contacts-grid.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.resume-contacts-grid.cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.meta-grid-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta-label {
+  font-weight: 600;
+  color: #111827;
+}
+
+.meta-grid-item a {
+  color: #374151;
+  text-decoration: none;
+}
+
+.meta-grid-item a:hover {
+  color: var(--primary-color, #2563eb);
+  text-decoration: underline;
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.meta-icon {
+  width: 13px;
+  height: 13px;
+  color: var(--primary-color, #2563eb);
+  flex-shrink: 0;
+}
+
+.meta-divider {
+  color: #9ca3af;
+}
+
+.resume-contacts a {
+  color: #374151;
+  text-decoration: none;
+}
+
+.resume-contacts a:hover {
+  color: var(--primary-color, #2563eb);
+  text-decoration: underline;
+}
+
+.resume-avatar-wrap {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--primary-color, #2563eb);
+  flex-shrink: 0;
+  background: #f3f4f6;
+  cursor: grab;
+  user-select: none;
+  position: relative;
+  z-index: 10;
+  transition: box-shadow 0.15s ease;
+}
+
+.resume-avatar-wrap:hover {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.22);
+}
+
+.resume-avatar-wrap.is-dragging {
+  cursor: grabbing;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+  outline: 2px dashed var(--primary-color, #2563eb);
+  outline-offset: 2px;
+}
+
+.resume-avatar-wrap.avatar-rounded {
+  border-radius: 10px;
+  width: 76px;
+  height: 76px;
+}
+
+.resume-avatar-wrap.avatar-idphoto {
+  border-radius: 6px;
+  width: 72px;
+  height: 96px;
+}
+
+.resume-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Headings H1 ~ H6 */
+.resume-body h1 {
+  font-size: 1.5em;
+  font-weight: 800;
+  color: #111827;
+  border-bottom: 2px solid var(--primary-color, #2563eb);
+  padding-bottom: 6px;
+  margin: calc(var(--section-gap, 14px) * 1.1) 0 calc(var(--section-gap, 14px) * 0.65);
+  letter-spacing: 0.3px;
+}
+
+.resume-body h2 {
+  font-size: 1.16em;
+  font-weight: 700;
+  color: var(--primary-color, #2563eb);
+  border-bottom: 1.5px solid #e5e7eb;
+  padding-bottom: 4px;
+  margin: var(--section-gap, 14px) 0 calc(var(--section-gap, 14px) * 0.55);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.resume-body h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  background: var(--primary-color, #2563eb);
+  border-radius: 2px;
+}
+
+.resume-body h3 {
+  font-size: 1.05em;
+  font-weight: 700;
+  color: #111827;
+  margin: calc(var(--section-gap, 14px) * 0.75) 0 var(--item-gap, 4px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.resume-body h4 {
+  font-size: 0.98em;
+  font-weight: 600;
+  color: var(--primary-color, #2563eb);
+  margin: calc(var(--item-gap, 4px) * 1.5) 0 var(--item-gap, 4px);
+}
+
+.resume-body h5 {
+  font-size: 0.92em;
+  font-weight: 600;
+  color: #374151;
+  margin: var(--item-gap, 4px) 0;
+}
+
+.resume-body h6 {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: var(--item-gap, 4px) 0;
+}
+
+/* Custom Row (`::: row`) */
+.resume-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: calc(var(--item-gap, 4px) * 1.8);
+  margin-bottom: var(--item-gap, 4px);
+  gap: 8px;
+  font-size: 1.02em;
+}
+
+.resume-row .row-left {
+  font-weight: 700;
+  color: #111827;
+}
+
+.resume-row .row-center {
+  color: var(--primary-color, #2563eb);
+  font-weight: 600;
+  font-size: 0.94em;
+}
+
+.resume-row .row-right {
+  color: #6b7280;
+  font-size: 0.9em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Multi-Column Aligned Grid (`::: cols-3` and `::: cols-2`) */
+.resume-grid {
+  display: grid;
+  gap: calc(var(--item-gap, 4px) * 1.2) 18px;
+  margin: calc(var(--item-gap, 4px) * 1.5) 0;
+  color: #374151;
+}
+
+.resume-grid.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.resume-grid.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.resume-grid.cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.resume-grid .grid-cell {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  line-height: var(--line-height, 1.6);
+}
+
+/* Lists & Paragraphs */
+.resume-body ul {
+  list-style-type: disc;
+  padding-left: 18px;
+  margin: var(--item-gap, 4px) 0 calc(var(--item-gap, 4px) * 1.8);
+}
+
+.resume-body ol {
+  list-style-type: decimal;
+  padding-left: 18px;
+  margin: var(--item-gap, 4px) 0 calc(var(--item-gap, 4px) * 1.8);
+}
+
+.resume-body li {
+  margin-bottom: var(--item-gap, 4px);
+  color: #374151;
+}
+
+.resume-body li::marker {
+  color: var(--primary-color, #2563eb);
+}
+
+.resume-body p {
+  margin: var(--item-gap, 4px) 0;
+  color: #374151;
+}
+
+.resume-body strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Inline Code -> Tech Skill Badge */
+.resume-body code,
+.resume-body .resume-tag {
+  font-family: "JetBrains Mono", Consolas, "PingFang SC", "Microsoft YaHei", monospace;
+  font-size: 0.86em;
+  padding: 1.5px 7px;
+  margin: 0 2px;
+  border-radius: 4px;
+  background-color: #eff6ff;
+  background: color-mix(in srgb, var(--primary-color, #2563eb) 12%, #ffffff);
+  color: var(--primary-color, #2563eb);
+  border: 1px solid color-mix(in srgb, var(--primary-color, #2563eb) 30%, #dbeafe);
+  font-weight: 600;
+  display: inline-block;
+  line-height: 1.35;
+}
+
+/* -------------------- Theme Variants -------------------- */
+
+/* Theme 2: Modern Slate (Banner Header + Pill Headings) */
+.a4-page.theme-modern-slate .resume-header {
+  background: color-mix(in srgb, var(--primary-color, #0f766e) 9%, #ffffff);
+  margin: calc(var(--margin-top, 26px) * -1) calc(var(--page-margin, 28px) * -1) 18px;
+  padding: var(--margin-top, 26px) var(--page-margin, 28px) 18px;
+  border-bottom: 3px solid var(--primary-color, #0f766e);
+}
+
+.a4-page.theme-modern-slate .resume-body h2 {
+  background: color-mix(in srgb, var(--primary-color, #0f766e) 10%, #ffffff);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border-bottom: none;
+}
+
+/* Theme 3: Elegant Serif (Centered Academic Style) */
+.a4-page.theme-elegant-serif .resume-header {
+  flex-direction: column;
+  text-align: center;
+}
+
+.a4-page.theme-elegant-serif .resume-title-row {
+  justify-content: center;
+}
+
+.a4-page.theme-elegant-serif .resume-contacts {
+  justify-content: center;
+}
+
+.a4-page.theme-elegant-serif .resume-body h2 {
+  justify-content: center;
+  border-bottom: 1px solid var(--primary-color, #7c3aed);
+}
+
+.a4-page.theme-elegant-serif .resume-body h2::before {
+  display: none;
+}
+
+/* -------------------- Click-to-Source Interactive Feedback -------------------- */
+.a4-page .resume-body [data-line],
+.a4-page .resume-name[data-line],
+.a4-page .resume-role[data-line],
+.a4-page .meta-grid-item[data-line],
+.a4-page .meta-item[data-line] {
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.a4-page .resume-body li[data-line]:hover,
+.a4-page .resume-body p[data-line]:hover,
+.a4-page .resume-body .resume-row[data-line]:hover,
+.a4-page .resume-body .grid-cell[data-line]:hover,
+.a4-page .resume-body h1[data-line]:hover,
+.a4-page .resume-body h2[data-line]:hover,
+.a4-page .resume-body h3[data-line]:hover,
+.a4-page .meta-grid-item[data-line]:hover,
+.a4-page .meta-item[data-line]:hover {
+  background-color: rgba(37, 99, 235, 0.055);
+}
+
+.a4-page .source-jump-highlight {
+  animation: previewSourceFlash 1.3s ease-out forwards;
+}
+
+@keyframes previewSourceFlash {
+  0% {
+    background-color: rgba(37, 99, 235, 0.18);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* Offscreen unscaled 1:1 staging container for direct PDF generation */
+.pdf-export-staging {
+  position: fixed;
+  top: 0;
+  left: -12000px;
+  width: 210mm;
+  zoom: 1 !important;
+  transform: none !important;
+  background: #ffffff;
+  pointer-events: none;
+  z-index: -9999;
+}
+
+/* -------------------- Native Vector PDF Print (@media print) -------------------- */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    width: 210mm !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .app-header,
+  .editor-panel,
+  .pane-resizer,
+  .preview-toolbar,
+  .inspector,
+  .a4-measure-container,
+  .pdf-export-staging,
+  .modal-backdrop,
+  .toast-stack,
+  .tooltip {
+    display: none !important;
+  }
+
+  .app,
+  .workspace,
+  .preview-panel,
+  .preview-canvas,
+  .pages-stack {
+    display: block !important;
+    width: 210mm !important;
+    min-width: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    zoom: 1 !important;
+    transform: none !important;
+  }
+
+  .a4-page {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
+    box-shadow: none !important;
+    outline: none !important;
+    margin: 0 !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .a4-page:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  .a4-page .source-jump-highlight {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+}
+
