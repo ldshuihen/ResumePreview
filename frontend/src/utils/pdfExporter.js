@@ -197,8 +197,15 @@ export async function exportResumeToPng({ pagesContainer, title = '个人简历'
       await inlineAllImages(clonedPage)
     }
 
+    // Browsers cap canvas size (~16384px per side, and a total-area limit). Exceeding it yields a blank image,
+    // so scale the resolution down automatically for tall multi-page long images.
+    const MAX_CANVAS_SIDE = 15000
+    const wrapperRect = captureWrapper.getBoundingClientRect()
+    const longestSide = Math.max(wrapperRect.width, wrapperRect.height, 1)
+    const safePixelRatio = Math.max(1, Math.min(3, MAX_CANVAS_SIDE / longestSide))
+
     const dataUrl = await toPng(captureWrapper, {
-      pixelRatio: 3,
+      pixelRatio: safePixelRatio,
       backgroundColor: wrapperBg,
       cacheBust: true
     })
